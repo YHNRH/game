@@ -1,0 +1,9 @@
+package game;
+
+public class Coin extends GameObject
+{
+    public BufferedImage getImage_()
+    {
+
+    }
+}

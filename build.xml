@@ -1,0 +1,24 @@
+<project>
+
+    <target name="sborka-paketa-core">
+        <javac destdir="compiled" srcdir="game/core/">
+        </javac>
+    </target>
+
+
+    <target name="build-package" depends="sborka-paketa-core">
+        <javac destdir="compiled" srcdir="game/">
+        </javac>
+    </target>
+
+    <target name="build" depends="build-package">
+        <javac destdir="compiled" srcdir=".">
+        </javac>
+    </target>
+
+    <target name="run" depends="build">
+        <java classname="Game" classpath="compiled" fork="true">
+        </java>
+    </target>
+
+</project>

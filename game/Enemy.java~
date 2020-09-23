@@ -1,0 +1,127 @@
+package game;
+import game.core.GameObject;
+import game.images.ImageCollection;
+import java.awt.image.BufferedImage;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class Enemy extends GameObject 
+{
+    private int animNumber = 0;
+    private int direction = 0;
+    private int moveCount = 0;
+    private int hp = 100;
+    private CopyOnWriteArrayList<GameObject> gameObjects;
+    private int b = 99;
+    public int getHP()
+    {
+	return this.hp;
+    }
+    public Enemy(int posX, int posY, int width, int height, CopyOnWriteArrayList<GameObject> gameObjects)
+    {
+        super(posX, posY, height, width);
+	this.gameObjects = gameObjects;
+	live();
+    }
+
+    protected void live()
+    {
+	Thread tr = new Thread(
+		  ()->
+		  {
+		      while (true)
+			  {
+			      /*
+				int a = (int) (Math.random()*4);
+				switch (a)
+				{
+				case (0):
+				move(5,0);
+				break;
+				case (1):
+				      move(-5,0);
+				      break;
+				  case (2):
+				      move(0,5);
+				      break;
+				  case (3):
+				      move(0,-5);
+				      break;
+				  }
+			      */
+			      
+			      if (b >=75 && Stopper.rBotCheck(gameObjects, this)!=0)
+				  {
+				      move(0,5);
+				      b--;
+				      System.out.println(b);
+				  }
+			      else if (b >=50 && Stopper.rRightCheck(gameObjects, this)!=0)
+				  {
+				      move(5,0);
+				      b--;
+				  }
+			      
+			      else if (b >=25 && Stopper.rTopCheck(gameObjects, this)!=0)
+				  {
+				      move(0,-5);
+				      b--;
+				  }
+			      
+			      else if (b >=0 && Stopper.rLeftCheck(gameObjects, this)!=0)
+				  {
+				      move(-5,0);
+				      b--;
+				  }
+			      else
+				  b=99;
+			      try
+				  {
+				      Thread.sleep(50);
+				  }
+			      catch (InterruptedException e)
+				  {
+				      System.out.println("InterruptedException in class Enemy");
+				  }
+			  }
+		  });
+	tr.start();
+    }
+
+        public void move(int deltax, int deltay)
+    {
+        super.move(deltax, deltay);
+	   if (Math.abs(deltax) > Math.abs(deltay)) {
+            if (deltax >= 0) {
+                direction = 3;
+            } else {
+                direction = 2;
+            }
+        } else {
+            if (deltay >= 0) {
+                direction = 0;
+            } else {
+                direction = 1;
+            }
+        }
+
+	moveCount++;
+	if (moveCount >= 4)
+	    {
+		moveCount =0;
+		animNumber++;
+	    }
+            if (animNumber == 4) {
+		animNumber = 0;
+	    }
+    }
+
+
+
+
+    public BufferedImage getImage_()
+    {
+        return ImageCollection.enemy[direction][animNumber];
+    }
+    
+    
+}

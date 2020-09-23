@@ -1,0 +1,13 @@
+package game;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Interface extends JPanel
+{
+    public void paintComponent(Graphics g)
+    {
+	super.paintComponent(g);
+	g.drawOval(0,0,100,100);
+    }
+}
